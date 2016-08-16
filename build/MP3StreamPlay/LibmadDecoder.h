@@ -2,6 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 #pragma once
+#include <WinSock2.h>
 
 #include "mad.h"
 #pragma comment(lib, "libmad.lib")
@@ -9,6 +10,7 @@
 #pragma comment(lib, "shlwapi.lib")
 #include <MMSystem.h>
 #pragma comment(lib, "winmm.lib")
+
 #include <stdio.h>
 
 #define DOUBLE_BUFFER 2
@@ -157,4 +159,13 @@ private:
     FILE* fp_;
     DWORD read_;
     DWORD length_;
+    HANDLE thread_;
+    friend void WINAPI RecvStreamThread(CLibmadDecoder *pLibmadDecoder);
+    int StartRecvStream();
+    enum{max_buffer = 40960};
+    char buffer_[max_buffer];
+    int buf_size;
+    CRITICAL_SECTION m_cs;
+    bool udp_;
+
 };

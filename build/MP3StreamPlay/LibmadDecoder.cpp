@@ -4,12 +4,18 @@
 
 //#include "stdafx.h"
 #include "LibmadDecoder.h"
-// #include <Windows.h>
 // #include <tchar.h>
+//#include <Windows.h>
+#pragma comment(lib, "ws2_32.lib")
 
 void WINAPI DecodeThread(CLibmadDecoder* pLibmadDecoder)
 {
 	pLibmadDecoder->StartDecode();
+}
+
+void WINAPI RecvStreamThread(CLibmadDecoder *pLibmadDecoder)
+{
+    pLibmadDecoder->StartRecvStream();
 }
 
 void CALLBACK waveOutProc(HWAVEOUT hwo, UINT uMsg, DWORD dwInstance, DWORD dwParam1, DWORD dwParam2)
@@ -36,6 +42,7 @@ void CALLBACK waveOutProc(HWAVEOUT hwo, UINT uMsg, DWORD dwInstance, DWORD dwPar
 
 CLibmadDecoder::CLibmadDecoder()
 {
+    InitializeCriticalSection(&m_cs);
     fp_ = NULL;
 	Init();
 }
@@ -43,6 +50,7 @@ CLibmadDecoder::CLibmadDecoder()
 CLibmadDecoder::~CLibmadDecoder()
 {
 	Release();
+    DeleteCriticalSection(&m_cs);
 }
 
 void CLibmadDecoder::Init()
@@ -69,6 +77,9 @@ void CLibmadDecoder::Init()
         fp_ = NULL;
     }
     read_ = 0;
+    thread_ = NULL; 
+    buf_size = 0;
+    udp_ = false;
 }
 
 void CLibmadDecoder::Release()
@@ -249,6 +260,7 @@ int CLibmadDecoder::StartDecode()
 	return nResult;
 }
 
+
 //
 // The following utility routine performs simple rounding, clipping, and
 // scaling of MAD's high-resolution samples down to specified bits. It does not
@@ -356,19 +368,32 @@ BOOL CLibmadDecoder::Play(char* pszFileName, HWND hWnd/* = NULL*/)
 	m_hWnd = hWnd;
 	if(!PathFileExists (const_cast<LPCSTR>(pszFileName)))
 	{
-		MessageBox(m_hWnd, "This file is not exist", "Play", MB_ICONINFORMATION);
-		return FALSE;
+        memcpy(m_szFileName, pszFileName, MAX_PATH);
+        if (StrStrI(m_szFileName, "upd"))
+        {
+            udp_ = true;
+            return TRUE;
+        }
+        else 
+        {
+            MessageBox(m_hWnd, "This file is not exist", "Play", MB_ICONINFORMATION);
+            return FALSE;
+        }
 	}
 	else{
 		memcpy(m_szFileName, pszFileName, MAX_PATH);
 	}
-	
+    thread_ = CreateThread(NULL, 0, (unsigned long(__stdcall *)(void *))RecvStreamThread, this, 0, &hThreadId);
+    SetThreadPriority(thread_, THREAD_PRIORITY_BELOW_NORMAL);
+    ResumeThread(thread_);
+
+    Sleep(100);
 	m_nPlayingStatus = ePlaying;
 	m_hThread = CreateThread(NULL, 0, (unsigned long(__stdcall *)(void *))DecodeThread, this, 0, &hThreadId);
 	SetThreadPriority(m_hThread, THREAD_PRIORITY_BELOW_NORMAL);
 	ResumeThread(m_hThread);
 
-	return TRUE;
+    return TRUE;
 }
 
 void CLibmadDecoder::Resume()
@@ -455,6 +480,23 @@ signed int CLibmadDecoder::LoadFile2Memory(const char *filename, char **result)
         free(*result);
         *result = NULL;
     }
+    if (udp_)
+    {
+        EnterCriticalSection(&m_cs);
+
+        if (0 == buf_size)
+        {
+            LeaveCriticalSection(&m_cs);
+            return 0;
+        }
+        int size = buf_size;
+        *result = (char *)malloc(size + 1);
+        memcpy(*result, buffer_, buf_size);
+        buf_size = 0;
+        LeaveCriticalSection(&m_cs);
+        return size;
+    }
+
 	unsigned int size = 0;
     if (NULL == fp_)
     {
@@ -490,4 +532,66 @@ signed int CLibmadDecoder::LoadFile2Memory(const char *filename, char **result)
 	(*result)[size] = 0;
 
 	return size;
+}
+
+int CLibmadDecoder::StartRecvStream()
+{
+    while (1)
+    {
+        SOCKET sock = ::socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+        if (INVALID_SOCKET == sock)
+        {
+            return -1;
+        }
+
+        int nRet;
+        SOCKADDR_IN addr;
+        addr.sin_family = AF_INET;
+        addr.sin_port = htons(1234);
+        addr.sin_addr.s_addr = htonl(INADDR_ANY);
+
+        DWORD budp = 1;		// 设置允许广播状态
+        nRet = ::setsockopt(sock, SOL_SOCKET, SO_BROADCAST, (const char *)&budp, sizeof(budp));
+
+        BOOL b = FALSE;		// 设置关闭后，立即释放资源
+        nRet = ::setsockopt(sock, SOL_SOCKET, SO_DONTLINGER, (const char *)&b, sizeof(b));
+
+        nRet = ::bind(sock, (struct sockaddr *)&addr, sizeof(SOCKADDR_IN));
+        if (SOCKET_ERROR == nRet)
+        {
+            ::closesocket(sock);
+            return -1;
+        }
+        
+        while (true)
+        {
+            ////////////////////// 实际的音频采集 //////////////////////////
+            fd_set fdread;		FD_ZERO(&fdread);
+            FD_SET(sock, &fdread);
+            timeval tim;		tim.tv_sec = 5;	tim.tv_usec = 0;
+
+            ::select(0, &fdread, NULL, NULL, &tim);
+            if (!FD_ISSET(sock, &fdread))
+                break;
+
+            SOCKADDR from;
+            int len = sizeof(from);
+            EnterCriticalSection(&m_cs);
+            nRet = ::recvfrom(sock, (char *)(buffer_ + buf_size), sizeof(buffer_)-buf_size, 0, &from, &len);
+            if (nRet <= 0)
+            {
+                LeaveCriticalSection(&m_cs);
+                break;
+            }
+            buf_size += nRet;
+            LeaveCriticalSection(&m_cs);
+            if (buf_size >= sizeof(buffer_))
+            {
+                Sleep(100);
+            }
+        }
+        shutdown(sock, SD_BOTH);
+        closesocket(sock);
+    }
+    return 0;
 }

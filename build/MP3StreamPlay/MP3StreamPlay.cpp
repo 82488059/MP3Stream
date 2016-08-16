@@ -7,10 +7,15 @@
 
 int main()
 {
+    WSADATA wsaData;
+    DWORD wVersionRequested = MAKEWORD(2, 2);
+    WSAStartup(wVersionRequested, &wsaData);
+
     CLibmadDecoder maddecoder;
 
     maddecoder.Play("Star Light Afar.mp3");
 
     system("pause");
+    WSACleanup();
     return 0;
 }
