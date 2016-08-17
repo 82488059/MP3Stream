@@ -78,8 +78,10 @@ void CLibmadDecoder::Init()
     }
     read_ = 0;
     thread_ = NULL; 
-    buf_size = 0;
     udp_ = false;
+    recv_ = true;
+    top_ = 0;
+    cur_top_ = 0;
 }
 
 void CLibmadDecoder::Release()
@@ -109,6 +111,8 @@ void CLibmadDecoder::Release()
         fclose(fp_);
         fp_ = NULL;
     }
+    recv_ = false;
+
 }
 
 enum mad_flow CLibmadDecoder::input_func(void *data, struct mad_stream *stream)
@@ -369,10 +373,9 @@ BOOL CLibmadDecoder::Play(char* pszFileName, HWND hWnd/* = NULL*/)
 	if(!PathFileExists (const_cast<LPCSTR>(pszFileName)))
 	{
         memcpy(m_szFileName, pszFileName, MAX_PATH);
-        if (StrStrI(m_szFileName, "upd"))
+        if (StrStrI(m_szFileName, "udp"))
         {
             udp_ = true;
-            return TRUE;
         }
         else 
         {
@@ -387,7 +390,7 @@ BOOL CLibmadDecoder::Play(char* pszFileName, HWND hWnd/* = NULL*/)
     SetThreadPriority(thread_, THREAD_PRIORITY_BELOW_NORMAL);
     ResumeThread(thread_);
 
-    Sleep(100);
+    //Sleep(100);
 	m_nPlayingStatus = ePlaying;
 	m_hThread = CreateThread(NULL, 0, (unsigned long(__stdcall *)(void *))DecodeThread, this, 0, &hThreadId);
 	SetThreadPriority(m_hThread, THREAD_PRIORITY_BELOW_NORMAL);
@@ -482,19 +485,22 @@ signed int CLibmadDecoder::LoadFile2Memory(const char *filename, char **result)
     }
     if (udp_)
     {
-        EnterCriticalSection(&m_cs);
+        while (recv_ && top_ == cur_top_)
+        {
+            Sleep(100);
+        }
 
-        if (0 == buf_size)
+        EnterCriticalSection(&m_cs);
+        if (cur_top_ == top_)
         {
             LeaveCriticalSection(&m_cs);
             return 0;
         }
-        int size = buf_size;
-        *result = (char *)malloc(size + 1);
-        memcpy(*result, buffer_, buf_size);
-        buf_size = 0;
+        *result = (char *)malloc(max_buffer + 1);
+        memcpy(*result, buffer_[cur_top_], max_buffer);
+        cur_top_ = (cur_top_ + 1) % max_top;
         LeaveCriticalSection(&m_cs);
-        return size;
+        return max_buffer;
     }
 
 	unsigned int size = 0;
@@ -536,9 +542,14 @@ signed int CLibmadDecoder::LoadFile2Memory(const char *filename, char **result)
 
 int CLibmadDecoder::StartRecvStream()
 {
+    SOCKET sock = INVALID_SOCKET;
     while (1)
     {
-        SOCKET sock = ::socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+        if (sock != INVALID_SOCKET)
+        {
+            closesocket(sock);
+        }
+        sock = ::socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
         if (INVALID_SOCKET == sock)
         {
             return -1;
@@ -573,25 +584,53 @@ int CLibmadDecoder::StartRecvStream()
             ::select(0, &fdread, NULL, NULL, &tim);
             if (!FD_ISSET(sock, &fdread))
                 break;
-
             SOCKADDR from;
             int len = sizeof(from);
             EnterCriticalSection(&m_cs);
-            nRet = ::recvfrom(sock, (char *)(buffer_ + buf_size), sizeof(buffer_)-buf_size, 0, &from, &len);
+            nRet = ::recvfrom(sock, (char *)buffer_[top_], max_buffer, 0, &from, &len);
             if (nRet <= 0)
             {
+                DWORD dw = GetLastError();
                 LeaveCriticalSection(&m_cs);
                 break;
             }
-            buf_size += nRet;
+            top_ = (top_ + 1) % max_top;
             LeaveCriticalSection(&m_cs);
-            if (buf_size >= sizeof(buffer_))
-            {
-                Sleep(100);
-            }
         }
         shutdown(sock, SD_BOTH);
         closesocket(sock);
     }
     return 0;
 }
+// 
+// 
+// int mp3_decode_buf(char *input_buf, int size)
+// {
+//     int decode_over_flag = 0;
+//     int remain_bytes = 0;
+//     int ret_val = 0;
+//     mad_stream_buffer(&decode_stream, input_buf, size);
+//     decode_stream.error = MAD_ERROR_NONE;
+//     while (1)
+//     {
+//         if (decode_stream.error == MAD_ERROR_BUFLEN) {
+//             if (decode_stream.next_frame != NULL) {
+//                 remain_bytes = decode_stream.bufend - decode_stream.next_frame;
+//                 memcpy(input_buf, decode_stream.next_frame, remain_bytes);
+//                 return remain_bytes;
+//             }
+//         }
+//         ret_val = mad_frame_decode(&decode_frame, &decode_stream);
+//         /* 省略部分代码 */
+//             if (ret_val == 0) {
+//                 if (play_frame(&decode_frame) == -1) {
+//                     return -1;
+//                 }
+//             }
+//         /* 后面代码省略 */
+//         ...
+//     }
+// 
+//     return 0;
+// }
+// 

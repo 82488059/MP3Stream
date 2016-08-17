@@ -13,7 +13,7 @@ int main()
 
     CLibmadDecoder maddecoder;
 
-    maddecoder.Play("Star Light Afar.mp3");
+    maddecoder.Play("udp");
 
     system("pause");
     WSACleanup();

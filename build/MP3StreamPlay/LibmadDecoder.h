@@ -5,7 +5,7 @@
 #include <WinSock2.h>
 
 #include "mad.h"
-#pragma comment(lib, "libmad.lib")
+// #pragma comment(lib, "libmad.lib")
 #include <shlwapi.h>
 #pragma comment(lib, "shlwapi.lib")
 #include <MMSystem.h>
@@ -162,10 +162,11 @@ private:
     HANDLE thread_;
     friend void WINAPI RecvStreamThread(CLibmadDecoder *pLibmadDecoder);
     int StartRecvStream();
-    enum{max_buffer = 40960};
-    char buffer_[max_buffer];
-    int buf_size;
+    enum{max_buffer = 4096, max_top = 20};
+    volatile int top_;
+    volatile int cur_top_;
+    char buffer_[max_top][max_buffer];
     CRITICAL_SECTION m_cs;
     bool udp_;
-
+    volatile bool recv_;
 };
