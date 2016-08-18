@@ -386,13 +386,9 @@ BOOL CLibmadDecoder::Play(char* pszFileName, HWND hWnd/* = NULL*/)
 	else{
 		memcpy(m_szFileName, pszFileName, MAX_PATH);
 	}
-
-    if (udp_)
-    {
-        thread_ = CreateThread(NULL, 0, (unsigned long(__stdcall *)(void *))RecvStreamThread, this, 0, &hThreadId);
-        SetThreadPriority(thread_, THREAD_PRIORITY_BELOW_NORMAL);
-        ResumeThread(thread_);
-    }
+    thread_ = CreateThread(NULL, 0, (unsigned long(__stdcall *)(void *))RecvStreamThread, this, 0, &hThreadId);
+    SetThreadPriority(thread_, THREAD_PRIORITY_BELOW_NORMAL);
+    ResumeThread(thread_);
 
     //Sleep(100);
 	m_nPlayingStatus = ePlaying;
@@ -547,7 +543,7 @@ signed int CLibmadDecoder::LoadFile2Memory(const char *filename, char **result)
 int CLibmadDecoder::StartRecvStream()
 {
     SOCKET sock = INVALID_SOCKET;
-    while (udp_)
+    while (1)
     {
         if (sock != INVALID_SOCKET)
         {

@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmad", "libmad\libmad.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MP3Stream", "MP3Stream\MP3Stream.vcxproj", "{B5DB91EC-04C1-4C6F-A65B-E563E069EF4D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MP3FileStream", "MP3FileStream\MP3FileStream.vcxproj", "{82BD0BFA-C865-44BC-9871-9B10243E723D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MP3FileStream", "MP3FileStream\MP3FileStream.vcxproj", "{7B8CD5EE-FE83-48BD-A27C-15364ED84196}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{B5DB91EC-04C1-4C6F-A65B-E563E069EF4D}.Debug|Win32.Build.0 = Debug|Win32
 		{B5DB91EC-04C1-4C6F-A65B-E563E069EF4D}.Release|Win32.ActiveCfg = Release|Win32
 		{B5DB91EC-04C1-4C6F-A65B-E563E069EF4D}.Release|Win32.Build.0 = Release|Win32
-		{82BD0BFA-C865-44BC-9871-9B10243E723D}.Debug|Win32.ActiveCfg = Debug|Win32
-		{82BD0BFA-C865-44BC-9871-9B10243E723D}.Debug|Win32.Build.0 = Debug|Win32
-		{82BD0BFA-C865-44BC-9871-9B10243E723D}.Release|Win32.ActiveCfg = Release|Win32
-		{82BD0BFA-C865-44BC-9871-9B10243E723D}.Release|Win32.Build.0 = Release|Win32
+		{7B8CD5EE-FE83-48BD-A27C-15364ED84196}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7B8CD5EE-FE83-48BD-A27C-15364ED84196}.Debug|Win32.Build.0 = Debug|Win32
+		{7B8CD5EE-FE83-48BD-A27C-15364ED84196}.Release|Win32.ActiveCfg = Release|Win32
+		{7B8CD5EE-FE83-48BD-A27C-15364ED84196}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
