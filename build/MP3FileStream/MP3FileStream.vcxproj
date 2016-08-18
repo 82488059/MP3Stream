@@ -11,10 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{B5DB91EC-04C1-4C6F-A65B-E563E069EF4D}</ProjectGuid>
+    <ProjectGuid>{82BD0BFA-C865-44BC-9871-9B10243E723D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>MP3Stream</RootNamespace>
-    <ProjectName>MP3Stream</ProjectName>
+    <ProjectName>MP3FileStream</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
