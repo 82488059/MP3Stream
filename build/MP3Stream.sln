@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MP3Stream", "MP3Stream\MP3S
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MP3FileStream", "MP3FileStream\MP3FileStream.vcxproj", "{7B8CD5EE-FE83-48BD-A27C-15364ED84196}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MP3Play", "MP3Play\MP3Play.vcxproj", "{24B3845B-AD26-49F5-B7EF-1D64AB406DB3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -33,6 +35,10 @@ Global
 		{7B8CD5EE-FE83-48BD-A27C-15364ED84196}.Debug|Win32.Build.0 = Debug|Win32
 		{7B8CD5EE-FE83-48BD-A27C-15364ED84196}.Release|Win32.ActiveCfg = Release|Win32
 		{7B8CD5EE-FE83-48BD-A27C-15364ED84196}.Release|Win32.Build.0 = Release|Win32
+		{24B3845B-AD26-49F5-B7EF-1D64AB406DB3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{24B3845B-AD26-49F5-B7EF-1D64AB406DB3}.Debug|Win32.Build.0 = Debug|Win32
+		{24B3845B-AD26-49F5-B7EF-1D64AB406DB3}.Release|Win32.ActiveCfg = Release|Win32
+		{24B3845B-AD26-49F5-B7EF-1D64AB406DB3}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
