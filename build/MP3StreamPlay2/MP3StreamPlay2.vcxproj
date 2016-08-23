@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{0E7CE887-3921-47A4-8923-05E7467F01B9}</ProjectGuid>
+    <ProjectGuid>{B25E87A7-085B-4056-9F3A-04F5A9966E08}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>MP3StreamPlay</RootNamespace>
   </PropertyGroup>
@@ -92,7 +92,7 @@
     <ClCompile Include="..\libmad\timer.c" />
     <ClCompile Include="..\libmad\version.c" />
     <ClCompile Include="LibmadDecoder.cpp" />
-    <ClCompile Include="MP3StreamPlay.cpp" />
+    <ClCompile Include="MP3StreamPlay2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\libmad\bit.h" />

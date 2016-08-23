@@ -2,15 +2,22 @@
 
 #include <stdio.h>
 #include <tchar.h>
-#include "LibmadDecoder.h"
+// #include "LibmadDecoder.h"
+#include "WaveCode.h""
+#include "AudioAnalyse.h"
 // 从文件播放MP3
+typedef void* DDD;
 
 int main()
 {
-    CLibmadDecoder maddecoder;
+    FILE *fp = fopen("", "rb");
 
-    maddecoder.Play("Star Light Afar.mp3");
+    as::services::CAudioDecode a;
 
-    system("pause");
+//     for ()
+//     {
+// 
+//     }
+
     return 0;
 }

@@ -1,4 +1,3 @@
-#pragma once
 /*
  * libmad - MPEG audio decoder library
  * Copyright (C) 2000-2003 Underbit Technologies, Inc.

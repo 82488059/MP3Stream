@@ -162,7 +162,7 @@ private:
     HANDLE thread_;
     friend void WINAPI RecvStreamThread(CLibmadDecoder *pLibmadDecoder);
     int StartRecvStream();
-    enum{max_buffer = 4096, max_top = 20};
+    enum{max_buffer = 4096, max_top = 50};
     volatile int top_;
     volatile int cur_top_;
     char buffer_[max_top][max_buffer];

@@ -21,9 +21,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MP3StreamPlay.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="LibmadDecoder.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -59,6 +56,9 @@
     </ClCompile>
     <ClCompile Include="..\libmad\stream.c">
       <Filter>源文件\libmad</Filter>
+    </ClCompile>
+    <ClCompile Include="MP3StreamPlay2.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

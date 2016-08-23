@@ -15,18 +15,30 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LibmadDecoder.h">
+    <ClInclude Include="AudioAnalyse.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="mad.h">
+    <ClInclude Include="WaveCode.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="adpcm.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioHead.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LibmadDecoder.cpp">
+    <ClCompile Include="MP3Play.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="MP3Play.cpp">
+    <ClCompile Include="AudioAnalyse.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="adpcm.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="WaveCode.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

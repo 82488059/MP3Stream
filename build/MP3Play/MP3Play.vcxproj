@@ -80,12 +80,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="LibmadDecoder.h" />
-    <ClInclude Include="mad.h" />
+    <ClInclude Include="adpcm.h" />
+    <ClInclude Include="AudioAnalyse.h" />
+    <ClInclude Include="AudioHead.h" />
+    <ClInclude Include="Wave.h" />
+    <ClInclude Include="WaveCode.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LibmadDecoder.cpp" />
+    <ClCompile Include="adpcm.cpp" />
+    <ClCompile Include="AudioAnalyse.cpp" />
     <ClCompile Include="MP3Play.cpp" />
+    <ClCompile Include="Wave.cpp" />
+    <ClCompile Include="WaveCode.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
