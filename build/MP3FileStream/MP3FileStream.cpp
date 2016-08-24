@@ -13,7 +13,8 @@ int main()
 
     CLibmadDecoder maddecoder;
 
-    maddecoder.Play("Star Light Afar.mp3");
+    //maddecoder.Play("Star Light Afar.mp3");
+    maddecoder.Play("xxxx.mp3");
 
     system("pause");
 //     WSACleanup();

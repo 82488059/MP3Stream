@@ -166,6 +166,7 @@ private:
     volatile int top_;
     volatile int cur_top_;
     char buffer_[max_top][max_buffer];
+    int size_[max_top];
     CRITICAL_SECTION m_cs;
     bool udp_;
     volatile bool recv_;

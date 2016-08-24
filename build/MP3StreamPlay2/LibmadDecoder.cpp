@@ -491,7 +491,7 @@ signed int CLibmadDecoder::LoadFile2Memory(const char *filename, char **result)
     {
         while (recv_ && top_ == cur_top_)
         {
-            Sleep(100);
+            Sleep(1);
         }
 
         EnterCriticalSection(&m_cs);
@@ -500,11 +500,12 @@ signed int CLibmadDecoder::LoadFile2Memory(const char *filename, char **result)
             LeaveCriticalSection(&m_cs);
             return 0;
         }
-        *result = (char *)malloc(max_buffer + 1);
-        memcpy(*result, buffer_[cur_top_], max_buffer);
+        int size = size_[cur_top_];
+        *result = (char *)malloc(size + 1);
+        memcpy(*result, buffer_[cur_top_], size);
         cur_top_ = (cur_top_ + 1) % max_top;
         LeaveCriticalSection(&m_cs);
-        return max_buffer;
+        return size;
     }
 
 	unsigned int size = 0;
@@ -562,7 +563,7 @@ int CLibmadDecoder::StartRecvStream()
         int nRet;
         SOCKADDR_IN addr;
         addr.sin_family = AF_INET;
-        addr.sin_port = htons(1234);
+        addr.sin_port = htons(5000);
         addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
         DWORD budp = 1;		// …Ë÷√‘ –Ìπ„≤•◊¥Ã¨
@@ -598,6 +599,7 @@ int CLibmadDecoder::StartRecvStream()
                 LeaveCriticalSection(&m_cs);
                 break;
             }
+            size_[top_] = nRet;
             top_ = (top_ + 1) % max_top;
             LeaveCriticalSection(&m_cs);
         }

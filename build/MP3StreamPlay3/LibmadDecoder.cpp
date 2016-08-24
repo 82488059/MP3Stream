@@ -488,7 +488,7 @@ signed int CLibmadDecoder::LoadFile2Memory(const char *filename, char **result)
     }
     if (udp_)
     {
-        while (recv_ && 0 == size_)
+        while (recv_ && size_ < max_buffer / 4)
         {
             Sleep(1);
         }
@@ -547,7 +547,7 @@ signed int CLibmadDecoder::LoadFile2Memory(const char *filename, char **result)
 int CLibmadDecoder::StartRecvStream()
 {
     SOCKET sock = INVALID_SOCKET;
-    FILE * fp = fopen("xxxx.mp3", "wb+");
+//     FILE * fp = fopen("xxxx.mp3", "wb+");
     while (udp_)
     {
         if (sock != INVALID_SOCKET)
@@ -606,16 +606,16 @@ int CLibmadDecoder::StartRecvStream()
             }
             size_ += nRet;
             LeaveCriticalSection(&m_cs);
-            if (fp)
-            {
-                fwrite(buffer_, size_, 1, fp);
-                size_ = 0;
-            }
+//             if (fp)
+//             {
+//                 fwrite(buffer_, size_, 1, fp);
+//                 size_ = 0;
+//             }
         }
         shutdown(sock, SD_BOTH);
         closesocket(sock);
     }
-    fclose(fp);
+//     fclose(fp);
 
     return 0;
 }
