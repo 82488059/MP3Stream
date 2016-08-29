@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\ms">
+      <UniqueIdentifier>{1aa7c60f-3a12-4dd7-b607-d66073f8bed6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\ms\socket">
+      <UniqueIdentifier>{667dc4a5-4f88-4539-b7ff-99f84700cf2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\ms\socket\tcp">
+      <UniqueIdentifier>{3713d474-5a4c-4e5a-ae46-fc1d25e658de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\ms\socket\udp">
+      <UniqueIdentifier>{cf512710-58eb-4fca-98ee-2b6622ad143e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PcmPlay.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MP3StreamTransmit.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LibmadDecoder.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PcmPlay.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ms\socket\tcp\Accept.h">
+      <Filter>头文件\ms\socket\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ms\string.h">
+      <Filter>头文件\ms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ms\socket\udp\server.h">
+      <Filter>头文件\ms\socket\udp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ms\socket\tcp\server.h">
+      <Filter>头文件\ms\socket\tcp</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
