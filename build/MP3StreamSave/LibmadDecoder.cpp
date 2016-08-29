@@ -7,6 +7,7 @@
 // #include <tchar.h>
 //#include <Windows.h>
 #pragma comment(lib, "ws2_32.lib")
+#pragma comment(lib, "libmad.lib")
 
 void WINAPI DecodeThread(CLibmadDecoder* pLibmadDecoder)
 {
@@ -510,6 +511,8 @@ signed int CLibmadDecoder::LoadFile2Memory(const char *filename, char **result)
 	unsigned int size = 0;
     if (NULL == fp_)
     {
+#pragma warning(push)
+#pragma warning(disable: 4996)  
         fp_ = fopen(filename, "rb");
         if (fp_ == NULL)
         {
@@ -519,6 +522,7 @@ signed int CLibmadDecoder::LoadFile2Memory(const char *filename, char **result)
         fseek(fp_, 0, SEEK_END);
         length_ = ftell(fp_);
         fseek(fp_, 0, SEEK_SET);
+#pragma warning(pop)
     }
     size = 4096;
     if (length_ < read_+size)
@@ -547,7 +551,11 @@ signed int CLibmadDecoder::LoadFile2Memory(const char *filename, char **result)
 int CLibmadDecoder::StartRecvStream()
 {
     SOCKET sock = INVALID_SOCKET;
+#pragma warning(push)
+#pragma warning(disable: 4996)  
+
     FILE * fp = fopen("xxxx.mp3", "wb+");
+#pragma warning(pop)
     while (udp_)
     {
         if (sock != INVALID_SOCKET)

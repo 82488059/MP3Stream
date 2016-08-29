@@ -28,6 +28,8 @@
 # include "fixed.h"
 # include "frame.h"
 # include "synth.h"
+#pragma warning(push)
+#pragma warning(disable: 4146)  
 
 /*
  * NAME:	synth->init()
@@ -855,3 +857,4 @@ void mad_synth_frame(struct mad_synth *synth, struct mad_frame const *frame)
 
   synth->phase = (synth->phase + ns) % 16;
 }
+#pragma warning(pop)

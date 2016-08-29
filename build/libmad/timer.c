@@ -422,7 +422,8 @@ void mad_timer_string(mad_timer_t timer,
   case MAD_UNITS_HOURS:
     minutes = seconds / 60;
     hours   = minutes / 60;
-
+#pragma warning(push)
+#pragma warning(disable: 4996)  
     sprintf(dest, format,
 	    hours,
 	    (unsigned int) (minutes % 60),
@@ -482,4 +483,6 @@ void mad_timer_string(mad_timer_t timer,
     sprintf(dest, format, mad_timer_count(timer, units), sub);
     break;
   }
+#pragma warning(pop)
+
 }

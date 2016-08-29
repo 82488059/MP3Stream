@@ -64,7 +64,7 @@ void CLibmadDecoder::Init()
 	m_nBufIndex = 0;
 	m_nFilebufferLen = 0;
 	m_bOpened = FALSE;
-	m_nPlayingStatus = eStoped;
+    m_nPlayingStatus = CPcmPlay::eStoped;
 
 	if(!m_outBuffer.data)
 	{
@@ -123,7 +123,7 @@ enum mad_flow CLibmadDecoder::input_func(void *data, struct mad_stream *stream)
         pThis->m_nFilebufferLen = pThis->LoadFile2Memory(pThis->m_szFileName, (char**)&pThis->m_pFileBuffer);
         if (!pThis->m_nFilebufferLen)
         {
-            pThis->m_nPlayingStatus = eStoped;
+            pThis->m_nPlayingStatus = CPcmPlay::eStoped;
             return MAD_FLOW_STOP;
         }
         else
@@ -171,14 +171,14 @@ enum mad_flow CLibmadDecoder::output_func(void *data, struct mad_header const *h
 	PCM_BLOCK *pPcmBlock = &pThis->m_PcmBlock[pThis->m_nBufIndex];
 
 	// Waiting for resume
-	if(pThis->m_nPlayingStatus == ePaused)
+    if (pThis->m_nPlayingStatus == CPcmPlay::ePaused)
 	{
 		while(WaitForSingleObject(pThis->m_hEventPause, INFINITE) != WAIT_OBJECT_0)
 		{
 			Sleep(5);
 		}
 	}
-	else if(pThis->m_nPlayingStatus == eStoped)
+    else if (pThis->m_nPlayingStatus == CPcmPlay::eStoped)
 	{
 		return MAD_FLOW_STOP;
 	}
@@ -394,7 +394,7 @@ BOOL CLibmadDecoder::Play(char* pszFileName, HWND hWnd/* = NULL*/)
     }
 
     //Sleep(100);
-	m_nPlayingStatus = ePlaying;
+    m_nPlayingStatus = CPcmPlay::ePlaying;
 	m_hThread = CreateThread(NULL, 0, (unsigned long(__stdcall *)(void *))DecodeThread, this, 0, &hThreadId);
 	SetThreadPriority(m_hThread, THREAD_PRIORITY_BELOW_NORMAL);
 	ResumeThread(m_hThread);
@@ -404,9 +404,9 @@ BOOL CLibmadDecoder::Play(char* pszFileName, HWND hWnd/* = NULL*/)
 
 void CLibmadDecoder::Resume()
 {
-	if(m_nPlayingStatus == ePaused)
+    if (m_nPlayingStatus == CPcmPlay::ePaused)
 	{
-		m_nPlayingStatus = ePlaying;
+        m_nPlayingStatus = CPcmPlay::ePlaying;
 		if(m_hEventPause){
 			SetEvent(m_hEventPause);
 		}
@@ -415,9 +415,9 @@ void CLibmadDecoder::Resume()
 
 void CLibmadDecoder::Pause()
 {
-	if(m_nPlayingStatus == ePlaying)
+    if (m_nPlayingStatus == CPcmPlay::ePlaying)
 	{
-		m_nPlayingStatus = ePaused;
+        m_nPlayingStatus = CPcmPlay::ePaused;
 		if(m_hEventPause){
 			ResetEvent(m_hEventPause);
 		}
@@ -426,7 +426,7 @@ void CLibmadDecoder::Pause()
 
 void CLibmadDecoder::Stop()
 {
-	m_nPlayingStatus = eStoped;
+    m_nPlayingStatus = CPcmPlay::eStoped;
 }
 
 void CLibmadDecoder::SetWaveFormat(unsigned short nChannels, unsigned long nSamplesPerSec, unsigned short wBitsPerSample)

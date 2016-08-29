@@ -11,10 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{0E7CE887-3921-47A4-8923-05E7467F01B9}</ProjectGuid>
+    <ProjectGuid>{E628AA30-213B-433C-AA5C-6C54FA112AA9}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>MP3StreamPlay</RootNamespace>
-    <ProjectName>MP3StreamPlay1</ProjectName>
+    <ProjectName>MP3Stream2PCMTransmit</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -93,7 +93,8 @@
     <ClCompile Include="..\libmad\timer.c" />
     <ClCompile Include="..\libmad\version.c" />
     <ClCompile Include="LibmadDecoder.cpp" />
-    <ClCompile Include="MP3StreamPlay1.cpp" />
+    <ClCompile Include="MP3Stream2PCMTransmit.cpp" />
+    <ClCompile Include="PcmPlay.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\libmad\bit.h" />
@@ -111,6 +112,7 @@
     <ClInclude Include="..\libmad\timer.h" />
     <ClInclude Include="..\libmad\version.h" />
     <ClInclude Include="LibmadDecoder.h" />
+    <ClInclude Include="PcmPlay.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -57,7 +57,10 @@
     <ClCompile Include="..\libmad\stream.c">
       <Filter>源文件\libmad</Filter>
     </ClCompile>
-    <ClCompile Include="MP3StreamPlay3.cpp">
+    <ClCompile Include="PcmPlay.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MP3Stream2PCMTransmit.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -106,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="..\libmad\fixed.h">
       <Filter>头文件\libmad</Filter>
+    </ClInclude>
+    <ClInclude Include="PcmPlay.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

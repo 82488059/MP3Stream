@@ -58,6 +58,8 @@ mad_fixed_t mad_f_div(mad_fixed_t x, mad_fixed_t y)
     x = -x;
     y = -y;
   }
+#pragma warning(push)
+#pragma warning(disable: 4146)  
 
   if (q > mad_f_intpart(MAD_F_MAX) &&
       !(q == -mad_f_intpart(MAD_F_MIN) && r == 0 && (x < 0) != (y < 0)))

@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 #pragma once
 #include <WinSock2.h>
-
+#include "PcmPlay.h"
 #include "mad.h"
 // #pragma comment(lib, "libmad.lib")
 #include <shlwapi.h>
@@ -24,12 +24,8 @@ public:
 	CLibmadDecoder();
 	virtual ~CLibmadDecoder();
 
-	enum PLAYING_STATUS
-	{
-		ePlaying = 0,
-		ePaused,
-		eStoped
-	};
+    CPcmPlay m_play;
+
 
 	//
 	// This is a private message structure. A generic pointer to this structure
@@ -103,8 +99,8 @@ public:
 	void Resume();
 	void Pause();
 	void Stop();
-	BOOL IsPlaying(){return (m_nPlayingStatus == ePlaying);}
-	BOOL IsPaused(){return (m_nPlayingStatus == ePaused);}
+    BOOL IsPlaying(){ return (m_nPlayingStatus == CPcmPlay::ePlaying); }
+    BOOL IsPaused(){ return (m_nPlayingStatus == CPcmPlay::ePaused); }
 
 	// Init local variables
 	void Init();
@@ -155,7 +151,7 @@ private:
 	unsigned long m_nFilebufferLen;
 	HWAVEOUT m_hWaveOut;
 	WAVEFORMATEX m_format;
-	volatile enum PLAYING_STATUS m_nPlayingStatus;
+    volatile enum CPcmPlay::PLAYING_STATUS m_nPlayingStatus;
     FILE* fp_;
     DWORD read_;
     DWORD length_;
