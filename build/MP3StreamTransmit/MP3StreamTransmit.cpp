@@ -1,5 +1,5 @@
 
-
+#include "stdafx.h"
 #include <stdio.h>
 #include <tchar.h>
 #include "LibmadDecoder.h"

@@ -1,4 +1,4 @@
-// #include "stdAfx.h"
+#include "stdAfx.h"
 
 
 #include "ms/log/LogToFile.h"
