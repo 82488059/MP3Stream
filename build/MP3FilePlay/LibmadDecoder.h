@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 #pragma once
 #include <WinSock2.h>
-#include "PcmPlay.h"
+
 #include "mad.h"
 // #pragma comment(lib, "libmad.lib")
 #include <shlwapi.h>
@@ -24,7 +24,13 @@ public:
 	CLibmadDecoder();
 	virtual ~CLibmadDecoder();
 
-    CPcmPlay m_play;
+	enum PLAYING_STATUS
+	{
+		ePlaying = 0,
+		ePaused,
+		eStoped
+	};
+
 	//
 	// This is a private message structure. A generic pointer to this structure
 	// is passed to each of the callback functions. Put here any data you need
@@ -97,8 +103,8 @@ public:
 	void Resume();
 	void Pause();
 	void Stop();
-    BOOL IsPlaying(){ return (m_nPlayingStatus == CPcmPlay::ePlaying); }
-    BOOL IsPaused(){ return (m_nPlayingStatus == CPcmPlay::ePaused); }
+	BOOL IsPlaying(){return (m_nPlayingStatus == ePlaying);}
+	BOOL IsPaused(){return (m_nPlayingStatus == ePaused);}
 
 	// Init local variables
 	void Init();
@@ -149,16 +155,17 @@ private:
 	unsigned long m_nFilebufferLen;
 	HWAVEOUT m_hWaveOut;
 	WAVEFORMATEX m_format;
-    volatile enum CPcmPlay::PLAYING_STATUS m_nPlayingStatus;
+	volatile enum PLAYING_STATUS m_nPlayingStatus;
     FILE* fp_;
     DWORD read_;
     DWORD length_;
     HANDLE thread_;
     friend void WINAPI RecvStreamThread(CLibmadDecoder *pLibmadDecoder);
     int StartRecvStream();
-    enum{max_buffer = 40960};
-    volatile int size_;
-    char buffer_[max_buffer];
+    enum{max_buffer = 4096, max_top = 50};
+    volatile int top_;
+    volatile int cur_top_;
+    char buffer_[max_top][max_buffer];
     CRITICAL_SECTION m_cs;
     bool udp_;
     volatile bool recv_;

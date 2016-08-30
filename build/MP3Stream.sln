@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MP3StreamTransmit", "MP3Str
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MP3Stream2PCMTransmit", "MP3Stream2PCMTransmit\MP3Stream2PCMTransmit.vcxproj", "{E628AA30-213B-433C-AA5C-6C54FA112AA9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MP3FilePlay", "MP3FilePlay\MP3FilePlay.vcxproj", "{D8C6CF65-23C1-40D7-9515-364D30E5B874}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -51,6 +53,10 @@ Global
 		{E628AA30-213B-433C-AA5C-6C54FA112AA9}.Debug|Win32.Build.0 = Debug|Win32
 		{E628AA30-213B-433C-AA5C-6C54FA112AA9}.Release|Win32.ActiveCfg = Release|Win32
 		{E628AA30-213B-433C-AA5C-6C54FA112AA9}.Release|Win32.Build.0 = Release|Win32
+		{D8C6CF65-23C1-40D7-9515-364D30E5B874}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D8C6CF65-23C1-40D7-9515-364D30E5B874}.Debug|Win32.Build.0 = Debug|Win32
+		{D8C6CF65-23C1-40D7-9515-364D30E5B874}.Release|Win32.ActiveCfg = Release|Win32
+		{D8C6CF65-23C1-40D7-9515-364D30E5B874}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

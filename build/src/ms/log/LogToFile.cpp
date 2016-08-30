@@ -1,4 +1,6 @@
-#include "stdAfx.h"
+// #include "stdAfx.h"
+
+
 #include "ms/log/LogToFile.h"
 // #include <boost/log/common.hpp>
 #include <ms/path/path.h>
