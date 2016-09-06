@@ -235,7 +235,8 @@ enum mad_flow CLibmadDecoder::output_func(void *data, struct mad_header const *h
 enum mad_flow CLibmadDecoder::error_func(void *data, struct mad_stream *stream, struct mad_frame *frame)
 {
 	CLibmadDecoder* pThis = (CLibmadDecoder*)data;
-	return MAD_FLOW_CONTINUE;
+	// return MAD_FLOW_CONTINUE;
+    return MAD_FLOW_IGNORE;
 }
 
 int CLibmadDecoder::StartDecode()
@@ -488,7 +489,7 @@ signed int CLibmadDecoder::LoadFile2Memory(const char *filename, char **result)
     }
     if (udp_)
     {
-        while (recv_ && size_ < max_buffer / 4)
+        while (recv_ && size_ < 4096)
         {
             Sleep(1);
         }
@@ -591,7 +592,7 @@ int CLibmadDecoder::StartRecvStream()
                 break;
             SOCKADDR from;
             int len = sizeof(SOCKADDR);
-            while (max_buffer - size_ < max_buffer / 2)
+            while (max_buffer - size_ < 4096)
             {
                 Sleep(1);
                 continue;
