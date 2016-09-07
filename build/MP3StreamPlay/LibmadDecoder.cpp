@@ -121,6 +121,17 @@ enum mad_flow CLibmadDecoder::input_func(void *data, struct mad_stream *stream)
 	if(!pThis->m_nFilebufferLen)
 	{
         pThis->m_nFilebufferLen = pThis->LoadFile2Memory(pThis->m_szFileName, (char**)&pThis->m_pFileBuffer);
+        int length = stream->bufend - stream->next_frame;
+        if (0 < length)
+        {
+            unsigned char*result = (unsigned char *)malloc(length + pThis->m_nFilebufferLen + 1);
+            memcpy(result, stream->next_frame, length);
+            memcpy(result + length, pThis->m_pFileBuffer, pThis->m_nFilebufferLen);
+            free((char*)pThis->m_pFileBuffer);
+            pThis->m_pFileBuffer = result;
+            pThis->m_nFilebufferLen += length;
+        }
+
         if (!pThis->m_nFilebufferLen)
         {
             pThis->m_nPlayingStatus = CPcmPlay::eStoped;
@@ -564,7 +575,7 @@ int CLibmadDecoder::StartRecvStream()
         int nRet;
         SOCKADDR_IN addr;
         addr.sin_family = AF_INET;
-        addr.sin_port = htons(5000);
+        addr.sin_port = htons(5001);
         addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
         DWORD budp = 1;		// …Ë÷√‘ –Ìπ„≤•◊¥Ã¨
